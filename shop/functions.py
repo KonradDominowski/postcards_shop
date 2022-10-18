@@ -49,11 +49,10 @@ def get_coordinates(image_path: str):
     return gps_info
 
 
-def get_exact_info(coordinates):
-    if not coordinates:
+def get_exact_info(latitude, longitude):
+    if not latitude or not longitude:
         return
 
-    location = geolocator.reverse(f"{coordinates['latitude']}, {coordinates['longitude']}")
+    location = geolocator.reverse(f"{latitude}, {longitude}")
 
-    for key, value in location.raw['address'].items():
-        print(f"{key}: {value}")
+    return location.raw['address']

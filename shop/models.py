@@ -1,13 +1,19 @@
 import os
 
+from django.conf import settings
 from django.db import models
-from .functions import clean_coordinates
+from .functions import clean_coordinates, get_exact_info
+
+
+IMG_DIR = 'shop/images/'
 
 
 class Photo(models.Model):
+    photo = models.ImageField(upload_to=IMG_DIR)
     name = models.CharField(max_length=100, blank=True, null=True)
-    photo = models.ImageField(upload_to='shop/images/')
     country = models.CharField(max_length=32, blank=True, null=True)
+    city = models.CharField(max_length=32, blank=True, null=True)
+    tourist_attraction = models.CharField(max_length=128, blank=True, null=True)
     latitude = models.CharField(max_length=16, blank=True, null=True)
     latituderef = models.CharField(max_length=1, blank=True, null=True)
     longitude = models.CharField(max_length=16, blank=True, null=True)
@@ -24,9 +30,20 @@ class Photo(models.Model):
         super(Photo, self).save(*args, **kwargs)
 
     def set_coordinates(self):
-        coordinates = clean_coordinates(self.photo.name)
+        coordinates = clean_coordinates(os.path.join(settings.MEDIA_ROOT, self.photo.name))
         if coordinates:
             self.latitude = coordinates['latitude']
             self.latituderef = coordinates['latitude_ref']
             self.longitude = coordinates['longitude']
             self.longituderef = coordinates['longitude_ref']
+
+    def set_extra_info(self):
+        info = get_exact_info(self.latitude, self.longitude)
+
+        if 'country' in info:
+            self.country = info['country']
+        if 'city' in info:
+            self.city = info['city']
+        if 'tourism' in info:
+            self.tourist_attraction = info['tourism']
+
