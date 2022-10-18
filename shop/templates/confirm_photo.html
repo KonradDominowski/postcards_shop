@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Photo</title>
+</head>
+<body>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Potwiedź zdjęcie">
+</form>
+<a href="{% url 'delete_photo' photo_id=photo.id %}">Anuluj i usuń zdjęcie</a>
+</body>
+</html>

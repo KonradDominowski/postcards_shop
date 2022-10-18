@@ -8,7 +8,7 @@ from os import listdir
 geolocator = Nominatim(user_agent="geoapiExercises")
 
 
-def convert_to_decimal_coordinates(image_path: str):
+def clean_coordinates(image_path: str):
     coordinates = get_coordinates(image_path)
 
     if not coordinates:
@@ -57,14 +57,3 @@ def get_exact_info(coordinates):
 
     for key, value in location.raw['address'].items():
         print(f"{key}: {value}")
-
-
-onlyfiles = [f for f in listdir('photos') if isfile(join('photos', f))]
-
-for file in onlyfiles:
-    coords = convert_to_decimal_coordinates(f'photos/{file}')
-    get_exact_info(coords)
-    print(coords)
-    print()
-
-
