@@ -5,9 +5,11 @@ from django.views import View
 from django.views.generic import CreateView, UpdateView
 
 from .forms import PhotoForm, ConfirmPhotoForm
+
 from .models import Photo
 
 
+# TODO - Check for duplicate picture when adding
 class Home(View):
     def get(self, request):
         count = Photo.objects.count()
