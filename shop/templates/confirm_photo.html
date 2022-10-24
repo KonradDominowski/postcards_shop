@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Photo</title>
+</head>
+<body>
+<img src="{{ photo.photo.url }}" height="300" >
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if is_duplicate %}
+        <b>Wygląda na to że to zdjęcie już istnieje, czy na pewno chcesz je dodać?</b><br>
+    {% endif%}
+    <input type="submit" value="Potwierdź zdjęcie">
+</form>
+<a href="{% url 'delete_photo' photo_id=photo.id %}">Anuluj i usuń zdjęcie</a>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="{% url 'create_photo' %}">Dodaj zdjęcie</a><br>
+Hello, masz {{ count }} zdjęć:
+
+<ul>
+    {% for photo in photos %}
+        <li><a href="{% url 'update_photo' photo.pk %}" >{{ photo.name }}</a> <img src="{{ photo.photo.url }}" height="150rem" >
+    {% endfor %}
+</ul>
+
+
+</body>
+</html>
