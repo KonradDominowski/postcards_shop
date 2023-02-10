@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Postcard</title>
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+
+<body>
+	<header>
+		<nav class="nav">
+
+			<a href="{% url 'shop-home' %}">
+				<img class="nav__logo" src="{% static 'graphics/placeholder.com-logo1.png' %}">
+				</img>
+			</a>
+
+			<ul class="nav__links">
+				<li class="nav__item">
+
+					<a class="nav__link" href="{% url 'shop-home' %}">Home</a>
+				</li>
+				<li class="nav__item">
+					<a class="nav__link" href="{% url 'create_photo' %}">Dodaj zdjęcie</a>
+				</li>
+				<li class="nav__item">
+					<form action="{% url 'search_photo' %}" method="get">
+						{% csrf_token %}
+						<input name="search" type="search" placeholder="Szukaj pocztówki" aria-label="Search" />
+						<button type="submit">Szukaj</button>
+					</form>
+				</li>
+			</ul>
+		</nav>
+	</header>
+	<div class="content">{% block content %} {% endblock content %}</div>
+</body>
+
+</html>

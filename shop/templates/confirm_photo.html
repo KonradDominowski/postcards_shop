@@ -1,19 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Photo</title>
-</head>
-<body>
-<img src="{{ photo.photo.url }}" height="300" >
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    {% if is_duplicate %}
-        <b>Wygląda na to że to zdjęcie już istnieje, czy na pewno chcesz je dodać?</b><br>
-    {% endif%}
-    <input type="submit" value="Potwierdź zdjęcie">
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<script src="{% static 'js/confirm_photo.js' %}" defer></script>
+<img src="{{ photo.photo.url }}" height="300">
+
+<form id="photo_form" method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+	{{ form.as_p }}
+	{% if is_duplicate %}
+	<b>Wygląda na to że to zdjęcie już istnieje, czy na pewno chcesz je dodać?</b><br>
+	{% endif%}
+	<input type="submit" value="Potwierdź zdjęcie">
 </form>
 <a href="{% url 'delete_photo' photo_id=photo.id %}">Anuluj i usuń zdjęcie</a>
-</body>
-</html>
+<button class="remove">
+	Test me
+</button>
+<div id="map" style="height: 400px; width: 600px;"></div>
+
+<!--
+      The `defer` attribute causes the callback to execute after the full HTML
+      document has been parsed. For non-blocking uses, avoiding race conditions,
+      and consistent behavior across browsers, consider loading using Promises
+      with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+      -->
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX7nPdvEfWcI6pYl2Qgw3pkO98eWfftc4&callback=initMap">
+	</script>
+
+
+
+{% endblock content %}
