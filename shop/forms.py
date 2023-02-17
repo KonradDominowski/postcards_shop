@@ -15,9 +15,10 @@ class PhotoForm(ModelForm):
 class ConfirmPhotoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ConfirmPhotoForm, self).__init__(*args, **kwargs)
-        self.fields['photo'].required = False
+        # self.fields['photo'].required = False
 
     class Meta:
         model = Photo
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ('photo', )
 

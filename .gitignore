@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 /shop/images/
 /media/shop/images/
+/.vscode/

@@ -1,14 +1,17 @@
-from os.path import join, isfile
-
 from PIL import Image
 from PIL.ExifTags import TAGS, GPSTAGS
 from geopy.geocoders import Nominatim
-from os import listdir
 
 geolocator = Nominatim(user_agent="geoapiExercises")
 
 
 def clean_coordinates(image_path: str):
+    """
+    Convert coordinates from minutes and seconds system into decimals.
+
+    :param image_path:
+    :return: Dictionary with cleaned coordinates.
+    """
     coordinates = get_coordinates(image_path)
 
     if not coordinates:
@@ -18,11 +21,18 @@ def clean_coordinates(image_path: str):
 
     long = coordinates['GPSLongitude']
     lat = coordinates['GPSLatitude']
-    cleaned_coordinates['longitude_ref'] = coordinates['GPSLongitudeRef']
-    cleaned_coordinates['latitude_ref'] = coordinates['GPSLatitudeRef']
 
-    cleaned_coordinates['longitude'] = str(round(long[0] + float(long[1]) / 60 + float(long[2]) / 3600, 6))
+    print(lat)
+    print(long)
+
     cleaned_coordinates['latitude'] = str(round(lat[0] + float(lat[1]) / 60 + float(lat[2]) / 3600, 6))
+    cleaned_coordinates['longitude'] = str(round(long[0] + float(long[1]) / 60 + float(long[2]) / 3600, 6))
+
+    if coordinates['GPSLatitudeRef'] == 'S':
+        cleaned_coordinates['latitude'] = f"-{cleaned_coordinates['latitude']}"
+
+    if coordinates['GPSLongitudeRef'] == 'W':
+        cleaned_coordinates['longitude'] = f"-{cleaned_coordinates['longitude']}"
 
     return cleaned_coordinates
 

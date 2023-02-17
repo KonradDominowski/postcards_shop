@@ -1,19 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<a href="{% url 'create_photo' %}">Dodaj zdjęcie</a><br>
-Hello, masz {{ count }} zdjęć:
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX7nPdvEfWcI6pYl2Qgw3pkO98eWfftc4&callback=initMap">
+        </script>
+<script src="{% static 'js/script.js' %}" defer></script>
 
-<ul>
+<div id="map" style="height: 400px; width: 100%"></div>
+
+<div class=" test">
+  <ul class="photos">
+
     {% for photo in photos %}
-        <li><a href="{% url 'update_photo' photo.pk %}" >{{ photo.name }}</a> <img src="{{ photo.photo.url }}" height="150rem" >
+
+    <li class="photo__list">
+      <a href="{% url 'update_photo' photo.pk %}"><img class="photo"
+             src="{{ photo.photo.url }}"
+             alt="{{ photo.city }}"
+             data-lat="{{ photo.latitude }}"
+             data-lng="{{ photo.longitude }}"
+             data-country="{{ photo.country }}"
+             data-city="{{ photo.city }}"
+             data-tourism="{{ photo.tourist_attraction }}"></a>
+    </li>
+
     {% endfor %}
-</ul>
+
+  </ul>
+</div>
 
 
-</body>
-</html>
+<div class="carousel">
+
+  {% for photo in random_photos %}
+
+  <div class="carousel__row">
+    <a href="{% url 'update_photo' photo.pk %}"><img class="carousel__photo" src="{{ photo.photo.url }}"
+           alt="{{ photo.city }}" /></a>
+
+    <div class="carousel__description">
+      {{ photo.city }}
+    </div>
+  </div>
+
+
+
+  {% endfor %}
+
+</div>
+
+{% endblock content %}
