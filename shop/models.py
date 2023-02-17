@@ -16,13 +16,11 @@ class Photo(models.Model):
     tourist_attraction = models.CharField(
         max_length=128, blank=True, null=True)
     latitude = models.CharField(max_length=16, blank=True, null=True)
-    latituderef = models.CharField(max_length=1, blank=True, null=True)
     longitude = models.CharField(max_length=16, blank=True, null=True)
-    longituderef = models.CharField(max_length=1, blank=True, null=True)
 
     def coordinates(self):
-        if self.latitude and self.latituderef and self.longitude and self.longituderef:
-            return f"{self.latitude}°{self.latituderef}, {self.longitude}°{self.longituderef}"
+        if self.latitude and self.longitude:
+            return f"{self.latitude}, {self.longitude}"
 
         return None
 
@@ -35,9 +33,7 @@ class Photo(models.Model):
             os.path.join(settings.MEDIA_ROOT, self.photo.name))
         if coordinates:
             self.latitude = coordinates['latitude']
-            self.latituderef = coordinates['latitude_ref']
             self.longitude = coordinates['longitude']
-            self.longituderef = coordinates['longitude_ref']
 
     def set_extra_info(self):
         """

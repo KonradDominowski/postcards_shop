@@ -8,6 +8,9 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
+
+python manage.py livereload
+python manage.py runserver
 """
 
 from pathlib import Path
@@ -37,7 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    # "livereload",
+    "livereload",
     "django.contrib.staticfiles",
     "django_extensions",
     "shop",
@@ -51,7 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # "livereload.middleware.LiveReloadScript",
+    "livereload.middleware.LiveReloadScript",
 ]
 
 ROOT_URLCONF = "postcards_shop.urls"

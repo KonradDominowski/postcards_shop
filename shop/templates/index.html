@@ -1,17 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX7nPdvEfWcI6pYl2Qgw3pkO98eWfftc4&callback=initMap">
+        </script>
 <script src="{% static 'js/script.js' %}" defer></script>
 
-<div class="test">
+<div id="map" style="height: 400px; width: 100%"></div>
+
+<div class=" test">
   <ul class="photos">
 
     {% for photo in photos %}
 
     <li class="photo__list">
-      <a href="{% url 'update_photo' photo.pk %}"><img class="photo" src="{{ photo.photo.url }}"
-          alt="{{ photo.city }}" /></a>
+      <a href="{% url 'update_photo' photo.pk %}"><img class="photo"
+             src="{{ photo.photo.url }}"
+             alt="{{ photo.city }}"
+             data-lat="{{ photo.latitude }}"
+             data-lng="{{ photo.longitude }}"
+             data-country="{{ photo.country }}"
+             data-city="{{ photo.city }}"
+             data-tourism="{{ photo.tourist_attraction }}"></a>
     </li>
 
     {% endfor %}
@@ -26,7 +36,7 @@
 
   <div class="carousel__row">
     <a href="{% url 'update_photo' photo.pk %}"><img class="carousel__photo" src="{{ photo.photo.url }}"
-        alt="{{ photo.city }}" /></a>
+           alt="{{ photo.city }}" /></a>
 
     <div class="carousel__description">
       {{ photo.city }}
