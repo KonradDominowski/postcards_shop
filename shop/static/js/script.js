@@ -34,9 +34,9 @@ photosList.forEach(photo => {
 
 
 // Map
-function initMap() {
+const initMap = function () {
 	const mapOptions = {
-		zoom: 4.2,
+		zoom: 4,
 		center: {
 			// Center of Europe
 			lat: 48.10893,
@@ -82,22 +82,17 @@ function initMap() {
 			ariaLabel: "Uluru",
 		});
 
-		marker.addListener("mouseover", () => {
+		marker.addListener("click", () => {
 			infowindow.open({
 				anchor: marker,
 				map,
 			});
 		})
 
-		// marker.addListener("mouseout", () => {
-		// 	infowindow.close({
-		// 		anchor: marker,
-		// 		map,
-		// 	});
-		// })
 
 		markers.push(marker)
 
 	})
 }
+
 window.initMap = initMap;
