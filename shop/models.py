@@ -2,10 +2,10 @@ import os
 
 from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User
 from .functions import clean_coordinates, get_exact_info
 
-
-IMG_DIR = 'shop/images/'
+IMG_DIR = "shop/images/"
 
 
 class Photo(models.Model):
@@ -13,10 +13,10 @@ class Photo(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     country = models.CharField(max_length=32, blank=True, null=True)
     city = models.CharField(max_length=32, blank=True, null=True)
-    tourist_attraction = models.CharField(
-        max_length=128, blank=True, null=True)
+    tourist_attraction = models.CharField(max_length=128, blank=True, null=True)
     latitude = models.CharField(max_length=16, blank=True, null=True)
     longitude = models.CharField(max_length=16, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
     def coordinates(self):
         if self.latitude and self.longitude:
@@ -26,14 +26,16 @@ class Photo(models.Model):
 
     def save(self, *args, **kwargs):
         self.name = self.photo.name
+        print(self.photo)
         super(Photo, self).save(*args, **kwargs)
 
     def set_coordinates(self):
         coordinates = clean_coordinates(
-            os.path.join(settings.MEDIA_ROOT, self.photo.name))
+            os.path.join(settings.MEDIA_ROOT, self.photo.name)
+        )
         if coordinates:
-            self.latitude = coordinates['latitude']
-            self.longitude = coordinates['longitude']
+            self.latitude = coordinates["latitude"]
+            self.longitude = coordinates["longitude"]
 
     def set_extra_info(self):
         """
@@ -46,9 +48,9 @@ class Photo(models.Model):
         if not info:
             return
 
-        if 'country' in info:
-            self.country = info['country']
-        if 'city' in info:
-            self.city = info['city']
-        if 'tourism' in info:
-            self.tourist_attraction = info['tourism']
+        if "country" in info:
+            self.country = info["country"]
+        if "city" in info:
+            self.city = info["city"]
+        if "tourism" in info:
+            self.tourist_attraction = info["tourism"]

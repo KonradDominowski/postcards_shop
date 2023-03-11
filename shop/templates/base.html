@@ -29,6 +29,23 @@
 				<li class="nav__item">
 					<a class="nav__link" href="{% url 'create_photo' %}">Dodaj zdjęcie</a>
 				</li>
+				{% if request.user.is_authenticated %}
+
+				<li class="nav__item">
+					<a class="nav__link" href="{% url 'photo_api' %}">API</a>
+				</li>
+				{% endif %}
+				<li class="nav__item" id="login">
+					{% if not request.user.is_authenticated %}
+
+					<a class="nav__link" href="{% url 'login' %}?next={{ request.path }}" type="button">Zaloguj</a>
+
+					{% else %}
+
+					<a class="nav__link" href="{% url 'logout' %}?next=/" type="button">Wyloguj - {{ request.user }}</a>
+
+					{% endif %}
+				</li>
 				<li class="nav__item">
 					<form action="{% url 'search_photo' %}" method="get">
 						{% csrf_token %}

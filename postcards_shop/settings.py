@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "shop",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,8 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
+
+LOGIN_URL = "/shop/login/"
 
 
 # Static files (CSS, JavaScript, Images)

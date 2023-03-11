@@ -357,3 +357,20 @@ s
             transform: scale3D(0, 0, 1);
   } 
 }
+
+.geo-marker {
+  text-align: center;
+}
+
+.geo-info {
+  padding: 10px;
+  text-align: left;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+}
+
+.geo-info-labels {
+  font-weight: 600;
+  text-align: right;
+}

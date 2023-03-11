@@ -140,7 +140,7 @@ function initMap() {
 			google.maps.event.addListener(infowindow, 'domready', function () {
 				const btnUpdateLocation = document.getElementById('updateLocation')
 
-				btnUpdateLocation.addEventListener('click', e => {
+				btnUpdateLocation.addEventListener('click', () => {
 					if (!marker) return
 
 					let coords = {

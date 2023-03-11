@@ -26,13 +26,6 @@ setInterval(() => {
 }, 4000)
 
 
-photosList.forEach(photo => {
-	let a = photo.querySelector('a')
-	let aPhoto = a.querySelector('img')
-
-})
-
-
 // Map
 const initMap = function () {
 	const mapOptions = {
@@ -46,7 +39,7 @@ const initMap = function () {
 	};
 
 	const map = new google.maps.Map(document.getElementById("map"), mapOptions);
-	let markers = []
+	let openWindow
 
 	photosList.forEach(link => {
 		let a = link.querySelector('a')
@@ -62,19 +55,17 @@ const initMap = function () {
 
 		let content = `
 		<div class="info-window">
-		<div class="info-window-link">		
-		<a href="${a.href}"><img class="photo_small"
-		src="${img.src}"
-		alt="${img.alt}"></a>
+			<div class="info-window-link">		
+				<a href="${a.href}"><img class="photo_small"
+				src="${img.src}"
+				alt="${img.alt}"></a>
+				</div>
+				<div class="info-window-text">
+				<h3>${img.dataset.country}</h3><br>
+				${img.dataset.city}<br>
+				${img.dataset.tourism}<br>
+			</div>
 		</div>
-		<div class="info-window-text">
-		<h3>${img.dataset.country}</h3><br>
-		${img.dataset.city}<br>
-		${img.dataset.tourism}<br>
-		</div>
-		</div>
-		
-
 		`
 
 		const infowindow = new google.maps.InfoWindow({
@@ -83,15 +74,13 @@ const initMap = function () {
 		});
 
 		marker.addListener("click", () => {
-			infowindow.open({
+			openWindow?.close()
+			openWindow = infowindow
+			openWindow.open({
 				anchor: marker,
 				map,
 			});
 		})
-
-
-		markers.push(marker)
-
 	})
 }
 

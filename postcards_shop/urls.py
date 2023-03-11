@@ -20,8 +20,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', RedirectView.as_view(pattern_name='shop-home')),
-    path('shop/', include('shop.urls')),
+                  path('admin/', admin.site.urls),
+                  path('', RedirectView.as_view(pattern_name='shop-home')),
+                  path('shop/', include('shop.urls')),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

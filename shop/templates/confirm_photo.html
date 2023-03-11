@@ -3,8 +3,8 @@
 {% block content %}
 <img src="{{ photo.photo.url }}" height="300">
 <script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX7nPdvEfWcI6pYl2Qgw3pkO98eWfftc4&callback=initMap">
-	</script>
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX7nPdvEfWcI6pYl2Qgw3pkO98eWfftc4&callback=initMap">
+		</script>
 
 <script src="{% static 'js/confirm_photo.js' %}" defer></script>
 
@@ -22,11 +22,6 @@
 <br>
 <button id="changeLocation">Change Marker Location</button>
 <br>
-<div>
-	<button id="updateLocation">
-		Update Location
-	</button>
-</div>
 <div class="map-container">
 	<div id="map" style="height: 400px; width: 100%;"></div>
 	<div class="sk-cube-grid">

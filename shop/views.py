@@ -2,6 +2,8 @@ import os.path
 from os import listdir
 from os.path import isfile, join
 from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import CreateView, UpdateView, ListView
@@ -33,7 +35,7 @@ class Home(View):
         return render(request, "index.html", context)
 
 
-class AddNewPhoto(CreateView):
+class AddNewPhoto(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse("confirm_photo", kwargs={"photo_id": self.object.pk})
 
@@ -41,8 +43,12 @@ class AddNewPhoto(CreateView):
         kwargs = super(AddNewPhoto, self).get_form_kwargs()
         return kwargs
 
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.user = User.objects.get(username=self.request.user)
+        return super(AddNewPhoto, self).form_valid(form)
+
     model = Photo
-    # success_url = reverse_lazy('confirm_photo', kwargs={'photo_id': self.object.pk})
     template_name = "create_photo.html"
     form_class = PhotoForm
 
@@ -50,14 +56,10 @@ class AddNewPhoto(CreateView):
 class ConfirmPhoto(View):
     def get(self, request, photo_id):
         photo = Photo.objects.get(pk=photo_id)
-        print(photo.photo)
 
         photo.set_coordinates()
         photo.set_extra_info()
         photo.save()
-
-
-        info = get_exact_info(photo.latitude, photo.longitude)
 
         form = ConfirmPhotoForm(instance=Photo.objects.get(pk=photo_id))
 
@@ -83,7 +85,13 @@ class DeletePhoto(View):
 
 class UpdatePhoto(UpdateView):
     model = Photo
-    fields = "__all__"
+    fields = [
+        "country",
+        "city",
+        "tourist_attraction",
+        "latitude",
+        "longitude",
+    ]
     template_name = "confirm_photo.html"
     success_url = "/"
 
