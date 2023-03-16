@@ -3,18 +3,19 @@
 {% block content %}
 <img src="{{ photo.photo.url }}" height="300">
 <script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX7nPdvEfWcI6pYl2Qgw3pkO98eWfftc4&callback=initMap">
-		</script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDX7nPdvEfWcI6pYl2Qgw3pkO98eWfftc4&callback=initMap">
+</script>
 
 <script src="{% static 'js/confirm_photo.js' %}" defer></script>
 
+<img src="{{ photo.photo_thumb_200.url }}">
 <form id="photo_form" method="post" enctype="multipart/form-data">
-	{% csrf_token %}
-	{{ form.as_p }}
-	{% if is_duplicate %}
-	<b>Wygląda na to że to zdjęcie już istnieje, czy na pewno chcesz je dodać?</b><br>
-	{% endif%}
-	<input id="formSend" type="submit" value="Potwierdź zdjęcie">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if is_duplicate %}
+    <b>Wygląda na to że to zdjęcie już istnieje, czy na pewno chcesz je dodać?</b><br>
+    {% endif%}
+    <input id="formSend" type="submit" value="Potwierdź zdjęcie">
 </form>
 <a href="{% url 'delete_photo' photo_id=photo.id %}">Anuluj i usuń zdjęcie</a>
 <br>
@@ -23,20 +24,19 @@
 <button id="changeLocation">Change Marker Location</button>
 <br>
 <div class="map-container">
-	<div id="map" style="height: 400px; width: 100%;"></div>
-	<div class="sk-cube-grid">
-		<div class="sk-cube sk-cube1"></div>
-		<div class="sk-cube sk-cube2"></div>
-		<div class="sk-cube sk-cube3"></div>
-		<div class="sk-cube sk-cube4"></div>
-		<div class="sk-cube sk-cube5"></div>
-		<div class="sk-cube sk-cube6"></div>
-		<div class="sk-cube sk-cube7"></div>
-		<div class="sk-cube sk-cube8"></div>
-		<div class="sk-cube sk-cube9"></div>
-	</div>
+    <div id="map" style="height: 400px; width: 100%;"></div>
+    <div class="sk-cube-grid">
+        <div class="sk-cube sk-cube1"></div>
+        <div class="sk-cube sk-cube2"></div>
+        <div class="sk-cube sk-cube3"></div>
+        <div class="sk-cube sk-cube4"></div>
+        <div class="sk-cube sk-cube5"></div>
+        <div class="sk-cube sk-cube6"></div>
+        <div class="sk-cube sk-cube7"></div>
+        <div class="sk-cube sk-cube8"></div>
+        <div class="sk-cube sk-cube9"></div>
+    </div>
 </div>
-
 
 
 {% endblock content %}

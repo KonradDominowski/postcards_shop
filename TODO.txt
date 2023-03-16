@@ -1,2 +1,1 @@
-# TODO - Create user gropus
-# TODO - Add a list of thumbnail sizes as json to each user group: basic, premium, enterprise
+# TODO - jak rozwiązać problem permissions i pól w serializerze - czy dawać inny serializator

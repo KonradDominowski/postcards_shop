@@ -3,14 +3,15 @@ from os import listdir
 from os.path import isfile, join
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
+
+# from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import CreateView, UpdateView, ListView
 from django.conf import settings
 from .forms import PhotoForm, ConfirmPhotoForm
 from django.db.models import Q
-from .models import IMG_DIR, Photo
+from .models import IMG_DIR, Photo, User
 from .functions import get_exact_info
 
 
@@ -57,8 +58,6 @@ class ConfirmPhoto(View):
     def get(self, request, photo_id):
         photo = Photo.objects.get(pk=photo_id)
 
-        photo.set_coordinates()
-        photo.set_extra_info()
         photo.save()
 
         form = ConfirmPhotoForm(instance=Photo.objects.get(pk=photo_id))

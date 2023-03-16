@@ -1,39 +1,60 @@
-from .models import Photo
+from .models import Photo, Thumbnail
 from rest_framework import serializers
 
 
+class ThumbnailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Thumbnail
+        fields = (
+            "thumbnail_size",
+            "thumbnail",
+        )
+
+
 class PhotoSerializer(serializers.ModelSerializer):
-    thumbnail_200_px = serializers.SerializerMethodField()
-
-    def get_thumbnail_200_px(self, obj):
-        request = self.context.get("request")
-        photo_url = obj.photo.url + "/200"
-
-        return request.build_absolute_uri(photo_url)
+    thumbnail = ThumbnailSerializer(many=True, required=False)
 
     def create(self, validated_data):
         request = self.context.get("request", None)
-        print("TEST")
-        print("TEST")
-        print("TEST")
-        print("TEST")
-        print("TEST")
-        print("TEST")
-        print("TEST")
-        print("TEST")
+        validated_data["user"] = request.user
+        return super().create(validated_data)
+
+    class Meta:
+        model = Photo
+        fields = ("photo", "thumbnail")
+        # fields = ("photo",)
+
+
+class PremiumPhotoSerializer(serializers.ModelSerializer):
+    photo_thumbnail_200 = serializers.ImageField(read_only=True)
+    photo_thumbnail_400 = serializers.ImageField(read_only=True)
+
+    def create(self, validated_data):
+        request = self.context.get("request", None)
         validated_data["user"] = request.user
         return super().create(validated_data)
 
     class Meta:
         model = Photo
         fields = (
-            "id",
+            "photo_thumbnail_200",
+            "photo_thumbnail_400",
             "photo",
-            "name",
-            "country",
-            "city",
-            "tourist_attraction",
-            "latitude",
-            "longitude",
-            "thumbnail_200_px",
         )
+
+
+class BasicPhotoSerializer(serializers.ModelSerializer):
+    def __init__(self, *args, **kwargs):
+        print("Hi")
+        super().__init__(*args, **kwargs)
+
+    photo_thumbnail_200 = serializers.ImageField(read_only=True)
+
+    def create(self, validated_data):
+        request = self.context.get("request", None)
+        validated_data["user"] = request.user
+        return super().create(validated_data)
+
+    class Meta:
+        model = Photo
+        fields = ("photo_thumbnail_200",)
