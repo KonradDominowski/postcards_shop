@@ -14,6 +14,7 @@ urlpatterns = [
     path("update/<pk>", views.UpdatePhoto.as_view(), name="update_photo"),
     path("search/", views.SearchPhoto.as_view(), name="search_photo"),
     path("api/", views_api.PhotoListView.as_view(), name="photo_api"),
+    path("api/add/", views_api.CreatePhotoView.as_view(), name="add_photo_api"),
     path(
         "api/thumbnails", views_api.ThumbnailListView.as_view(), name="thumbnails_view"
     ),

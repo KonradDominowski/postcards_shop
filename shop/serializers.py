@@ -11,24 +11,23 @@ class ThumbnailSerializer(serializers.ModelSerializer):
         )
 
 
-class PhotoSerializer(serializers.ModelSerializer):
+class OriginalPhotoThumbnailsSerializer(serializers.ModelSerializer):
     thumbnail = ThumbnailSerializer(many=True, required=False)
-
-    def create(self, validated_data):
-        request = self.context.get("request", None)
-        validated_data["user"] = request.user
-        return super().create(validated_data)
 
     class Meta:
         model = Photo
         fields = ("photo", "thumbnail")
-        # fields = ("photo",)
 
 
-class PremiumPhotoSerializer(serializers.ModelSerializer):
-    photo_thumbnail_200 = serializers.ImageField(read_only=True)
-    photo_thumbnail_400 = serializers.ImageField(read_only=True)
+class ThumbnailsSerializer(serializers.ModelSerializer):
+    thumbnail = ThumbnailSerializer(many=True, required=False)
 
+    class Meta:
+        model = Photo
+        fields = ("thumbnail",)
+
+
+class PhotoSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context.get("request", None)
         validated_data["user"] = request.user
@@ -36,25 +35,4 @@ class PremiumPhotoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Photo
-        fields = (
-            "photo_thumbnail_200",
-            "photo_thumbnail_400",
-            "photo",
-        )
-
-
-class BasicPhotoSerializer(serializers.ModelSerializer):
-    def __init__(self, *args, **kwargs):
-        print("Hi")
-        super().__init__(*args, **kwargs)
-
-    photo_thumbnail_200 = serializers.ImageField(read_only=True)
-
-    def create(self, validated_data):
-        request = self.context.get("request", None)
-        validated_data["user"] = request.user
-        return super().create(validated_data)
-
-    class Meta:
-        model = Photo
-        fields = ("photo_thumbnail_200",)
+        fields = ("photo",)
