@@ -1,1 +1,0 @@
-# TODO - jak rozwiązać problem permissions i pól w serializerze - czy dawać inny serializator
